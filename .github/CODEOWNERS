@@ -1,0 +1,32 @@
+# Lines starting with '#' are comments.
+# Each line is a case-sensitive file pattern followed by one or more owners.
+# Order is important. The last matching pattern has the most precedence.
+# More information: https://docs.github.com/en/articles/about-code-owners
+#
+# Please mirror the repository's file hierarchy in case-sensitive lexicographic
+# order.
+
+# TODO: /.clang-format
+# TODO: /.gitattributes
+
+# .github
+/.github                                  @showxu
+/.github/CODEOWNERS                       @showxu
+/.github/ISSUE_TEMPLATE/                  @showxu
+/.github/PULL_REQUEST_TEMPLATE.md         @showxu
+
+# TODO: /.gitignore
+# TODO: /CODE_OF_CONDUCT.md
+# TODO: /CODE_OWNERS.TXT
+# TODO: /CONTRIBUTING.md
+# TODO: /LICENSE.txt
+# TODO: /README.md
+
+# Sources
+/Sources                                  @showxu
+
+# Tests
+/Tests                                    @showxu
+
+# Plugins
+/Plugins                                  @showxu
