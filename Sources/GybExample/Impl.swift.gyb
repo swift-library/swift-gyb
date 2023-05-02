@@ -1,0 +1,38 @@
+//===--- Impl.swift -------------------------------------------------------===//
+//
+// This source file is part of the swift-library open source project
+//
+// Created by Xudong Xu on 5/1/23.
+//
+// Copyright (c) 2023 Xudong Xu <showxdxu@gmail.com> and the swift-library project authors
+//
+// See https://swift-library.github.io/LICENSE.txt for license information
+// See https://swift-library.github.io/CONTRIBUTORS.txt for the list of swift-library project authors
+// See https://github.com/swift-library for the list of swift-library projects
+//
+//===----------------------------------------------------------------------===//
+%{
+value_types = {
+  'Default': '',
+  'RawRepresentable': 'RawRepresentable',
+  'Codable': 'Codable',
+}
+names = list(value_types.keys())
+}%
+
+import class Foundation.UserDefaults
+% for name in names:
+%     type = value_types[name]
+%     Name = f"{name}"
+%     Type = f"{ ': ' + type if len(type) > 0 else '' }"
+struct ${Name}Impl<T${Type}> {
+  typealias Value = T
+  
+  var userDefaults: UserDefaults
+  
+  init(_ userDefaults: UserDefaults) {
+    self.userDefaults = userDefaults
+  }
+}
+
+% end
