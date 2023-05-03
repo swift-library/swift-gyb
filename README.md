@@ -77,7 +77,7 @@ let package = Package(
         // other dependencies
       ],
       plugins: [
-        .plugin(name: "Gyb", package: "swift-gyb"),
+        .plugin(name: "GybPlugin", package: "swift-gyb"),
       ]
     ),
     // other targets
