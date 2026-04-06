@@ -12,7 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
 import PackagePlugin
 
 @main
@@ -82,9 +81,9 @@ struct GybBuildPlugin: BuildToolPlugin {
     guard relativeGYBPath.hasSuffix(".gyb") else {
       return nil
     }
-    let normalizedPath = relativeGYBPath.replacingOccurrences(of: "\\", with: "/")
+    let normalizedPath = normalizedPathSeparators(relativeGYBPath)
     let pathWithoutGYB = String(normalizedPath.dropLast(".gyb".count))
-    return pathWithoutGYB.replacingOccurrences(of: "/", with: "__")
+    return flatOutputName(pathWithoutGYB)
   }
 
   private func shouldEmitSwiftLineDirective(forOutputFileName outputFileName: String) -> Bool {
@@ -92,8 +91,16 @@ struct GybBuildPlugin: BuildToolPlugin {
   }
 
   private func lineDirectiveFileName(forRelativeGYBPath relativeGYBPath: String) -> String {
-    relativeGYBPath
-      .replacingOccurrences(of: "\\", with: "/")
-      .replacingOccurrences(of: "/", with: "__")
+    flatOutputName(normalizedPathSeparators(relativeGYBPath))
+  }
+
+  private func normalizedPathSeparators(_ path: String) -> String {
+    String(path.map { $0 == "\\" ? "/" : $0 })
+  }
+
+  private func flatOutputName(_ relativePath: String) -> String {
+    relativePath
+      .split(separator: "/", omittingEmptySubsequences: false)
+      .joined(separator: "__")
   }
 }
