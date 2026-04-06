@@ -20,7 +20,7 @@ struct GybBuildPlugin: BuildToolPlugin {
   struct GybSourceOutputPair {
     let sourcePath: Path
     let outputPath: Path
-    let lineDirectiveFile: String
+    let lineDirectiveFile: String?
   }
 
   func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
@@ -32,15 +32,22 @@ struct GybBuildPlugin: BuildToolPlugin {
     let sourceDirectoryPrefix = sourceDirectory.hasSuffix("/") ? sourceDirectory : sourceDirectory + "/"
 
     let gyb: (_ pair: GybSourceOutputPair) -> Command = { pair in
-      let lineDirective = #"#sourceLocation(file: "\#(pair.lineDirectiveFile)", line: %(line)d)"#
+      var arguments = target.compilationConditions.flatMap { ["-D", "\($0)=1"] }
+      let lineDirective: String
+      if let lineDirectiveFile = pair.lineDirectiveFile {
+        lineDirective = #"#sourceLocation(file: "\#(lineDirectiveFile)", line: %(line)d)"#
+      } else {
+        lineDirective = ""
+      }
+      arguments += ["--line-directive", lineDirective]
+      arguments += [
+        "-o", pair.outputPath.string,
+        pair.sourcePath.string,
+      ]
       return .buildCommand(
         displayName: "Using gyb convert \(pair.sourcePath.lastComponent) to \(pair.outputPath.lastComponent)",
         executable: toolPath,
-        arguments: target.compilationConditions.flatMap { ["-D", "\($0)=1"] } + [
-          "--line-directive", lineDirective,
-          "-o", pair.outputPath.string,
-          pair.sourcePath.string,
-        ],
+        arguments: arguments,
         inputFiles: [pair.sourcePath],
         outputFiles: [pair.outputPath])
     }
@@ -49,14 +56,16 @@ struct GybBuildPlugin: BuildToolPlugin {
     let sourceAndOutputPaths = gybFiles.compactMap { sourceFile -> GybSourceOutputPair? in
       let sourcePath = sourceFile.path
       let relativePath = makeRelativePath(sourcePath.string, sourceDirectoryPrefix: sourceDirectoryPrefix)
-      guard let outputFileName = swiftOutputFileName(forRelativeGYBPath: relativePath) else {
+      guard let outputFileName = outputFileName(forRelativeGYBPath: relativePath) else {
         return nil
       }
       let outputPath = context.pluginWorkDirectory.appending(outputFileName)
       return GybSourceOutputPair(
         sourcePath: sourcePath,
         outputPath: outputPath,
-        lineDirectiveFile: lineDirectiveFileName(forRelativeGYBPath: relativePath))
+        lineDirectiveFile: shouldEmitSwiftLineDirective(forOutputFileName: outputFileName)
+          ? lineDirectiveFileName(forRelativeGYBPath: relativePath)
+          : nil)
     }
     return sourceAndOutputPaths.map(gyb)
   }
@@ -68,16 +77,17 @@ struct GybBuildPlugin: BuildToolPlugin {
     return absolutePath
   }
 
-  private func swiftOutputFileName(forRelativeGYBPath relativeGYBPath: String) -> String? {
+  private func outputFileName(forRelativeGYBPath relativeGYBPath: String) -> String? {
     guard relativeGYBPath.hasSuffix(".gyb") else {
       return nil
     }
     let normalizedPath = relativeGYBPath.replacingOccurrences(of: "\\", with: "/")
     let pathWithoutGYB = String(normalizedPath.dropLast(".gyb".count))
-    let swiftRelativePath = pathWithoutGYB.hasSuffix(".swift")
-      ? pathWithoutGYB
-      : pathWithoutGYB + ".swift"
-    return swiftRelativePath.replacingOccurrences(of: "/", with: "__")
+    return pathWithoutGYB.replacingOccurrences(of: "/", with: "__")
+  }
+
+  private func shouldEmitSwiftLineDirective(forOutputFileName outputFileName: String) -> Bool {
+    outputFileName.hasSuffix(".swift")
   }
 
   private func lineDirectiveFileName(forRelativeGYBPath relativeGYBPath: String) -> String {
