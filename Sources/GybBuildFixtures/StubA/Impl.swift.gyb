@@ -1,0 +1,11 @@
+//===--- Impl.swift -------------------------------------------------------===//
+//
+// This source file is part of the swift-library open source project
+//
+// Created by Xudong Xu on 4/6/26.
+//
+//===----------------------------------------------------------------------===//
+
+struct StubAImplMarker {
+  static let fileID: String = #fileID
+}

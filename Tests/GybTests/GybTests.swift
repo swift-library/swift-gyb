@@ -12,12 +12,41 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
-@testable import GybExample
+import Testing
+@testable import GybBuildFixtures
 
-struct GybCodable: Codable {
+struct GybCodable: Codable {}
+
+enum GybRaw: String {
+  case value
 }
 
-final class GybTests: XCTestCase {
-  var impl = CodableImpl<GybCodable>.init(.standard)
+struct GybTests {
+  @Test
+  func generatedImplTypesAreUsable() {
+    _ = DefaultImpl<Int>(.standard)
+    _ = RawRepresentableImpl<GybRaw>(.standard)
+    _ = CodableImpl<GybCodable>(.standard)
+  }
+
+  @Test
+  func plainGYBTemplateIsGeneratedAsSwift() {
+    _ = PlainTemplateMarker()
+    #expect(String(describing: PlainTemplateMarker.self) == "PlainTemplateMarker")
+  }
+
+  @Test
+  func sameBasenameTemplatesFromDifferentDirectoriesAreBothGenerated() {
+    _ = StubAImplMarker()
+    _ = StubBImplMarker()
+    #expect(String(describing: StubAImplMarker.self) == "StubAImplMarker")
+    #expect(String(describing: StubBImplMarker.self) == "StubBImplMarker")
+    #expect(StubAImplMarker.fileID != StubBImplMarker.fileID)
+  }
+
+  @Test
+  func compilationConditionsArePassedToGYBTemplates() {
+    _ = CompilationConditionMarker()
+    #expect(String(describing: CompilationConditionMarker.self) == "CompilationConditionMarker")
+  }
 }
