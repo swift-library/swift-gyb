@@ -68,7 +68,7 @@ let package = Package(
   // name, platforms, products, etc.
   dependencies: [
     // other dependencies
-    .package(url: "https://github.com/swift-library/swift-gyb", from: "0.0.1"),
+    .package(url: "https://github.com/swift-library/swift-gyb", from: "0.0.2"),
   ],
   targets: [
     .executableTarget(
@@ -91,6 +91,7 @@ The most recent versions of swift-gyb support Swift 5.8 and newer. The minimum S
 
 swift-gyb | Minimum Swift Version
 ----------|----------------------
+`0.0.2`   | 5.8
 `0.0.1`   | 5.8
 
 <!-- Link references for readme -->
