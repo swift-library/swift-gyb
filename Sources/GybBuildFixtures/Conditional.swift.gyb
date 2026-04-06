@@ -1,0 +1,11 @@
+//===--- Conditional.swift -------------------------------------------------===//
+//
+// This source file is part of the swift-library open source project
+//
+// Created by Xudong Xu on 4/6/26.
+//
+//===----------------------------------------------------------------------===//
+
+% if GYB_TEST_FLAG == "1":
+struct CompilationConditionMarker {}
+% end
