@@ -3,7 +3,7 @@
   "artifacts": {
     "gyb": {
       "type": "executable",
-      "version": "3dfc40898cdf6980bac4f6987e57719346833470",
+      "version": "2f9445d55e84eec95d3e066299d8f4636a3e5af9",
       "variants": [
         {
           "path": "gyb.py",
