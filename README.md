@@ -1,101 +1,254 @@
-# Swift Gyb
+<p align="center">
+  <img src="Documentation/Assets/Logo.svg" width="160" alt="swift-gyb logo">
+</p>
 
-The gyb.py plugin for SwiftPM project.
+<h1 align="center">swift-gyb</h1>
 
-## Usage
+<p align="center">
+  A SwiftPM build tool plugin that expands gyb templates into Swift sources and resources at build time.
+</p>
 
-[GYB] is a lightweight templating system that allows you to use Python code for variable substitution and flow control:
+<p align="center">
+  <a href="https://github.com/swift-library/swift-gyb/actions/workflows/ci.yml"><img src="https://github.com/swift-library/swift-gyb/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI"></a>
+  <img src="https://img.shields.io/badge/Swift-5.8%2B-F05138" alt="Swift 5.8+">
+  <img src="https://img.shields.io/badge/platforms-macOS%2010.13%2B%20%7C%20iOS%2011%2B%20%7C%20tvOS%2011%2B%20%7C%20watchOS%204%2B-lightgrey" alt="Platforms: macOS 10.13+ | iOS 11+ | tvOS 11+ | watchOS 4+">
+  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="License: Apache-2.0 WITH Swift-exception"></a>
+</p>
 
-- The sequence `%{ code } ` evaluates a block of Python code
-- The sequence `% code: ... % end` manages control flow
-- The sequence `${ code }` substitutes the result of an expression
+[Overview](#overview) · [Install](#install) · [Quick start](#quick-start) ·
+[Usage](#usage) · [Requirements](#requirements) ·
+[Documentation](#documentation) · [Contributing](#contributing) ·
+[License](#license)
 
-A good example of GYB can be found in [Codable.swift.gyb]. At the top of the file, the base Codable types are assigned to an instance variable:
+> [!NOTE]
+> swift-gyb is pre-1.0. Minor releases may include breaking changes, so
+> depend on it with `.upToNextMinor(from:)`.
 
-```python
-%{
-codable_types = ['Bool', 'String', 'Double', 'Float',
-                 'Int', 'Int8', 'Int16', 'Int32', 'Int64',
-                 'UInt', 'UInt8', 'UInt16', 'UInt32', 'UInt64']
-}%
-```
+## Overview
 
-Later on, in the implementation of [`SingleValueEncodingContainer`], these types are iterated over to generate the methods declarations for the protocol’s requirements:
+swift-gyb runs [gyb](https://github.com/swiftlang/swift/blob/main/utils/gyb.py),
+the template tool the Swift project uses for repetitive standard library code,
+as a SwiftPM build tool plugin. Add `GybPlugin` to a target, put `.gyb`
+templates next to its sources, and every build expands them into the target.
+Templates use Python for loops, conditions, and substitutions, so one list of
+types can produce a family of declarations without checking generated code in.
 
-```python
-% for type in codable_types:
-  mutating func encode(_ value: ${type}) throws
-% end
-```
+- Expands every `.gyb` file in a Swift target as part of the build.
+- Compiles `.swift.gyb` outputs into the target, with `#sourceLocation`
+  directives that point compiler diagnostics at template lines.
+- Passes the target's `.define` compilation conditions to templates.
+- Keeps non-Swift outputs, such as `.txt.gyb` or `.html.gyb`, under their own
+  extension and bundles them as target resources.
+- Bundles `gyb.py`, so a build only needs Python 3.
 
-Evaluating the GYB template results in the following declarations:
+## Install
 
-```swift
-mutating func encode(_ value: Bool) throws
-mutating func encode(_ value: String) throws
-mutating func encode(_ value: Double) throws
-mutating func encode(_ value: Float) throws
-mutating func encode(_ value: Int) throws
-mutating func encode(_ value: Int8) throws
-mutating func encode(_ value: Int16) throws
-mutating func encode(_ value: Int32) throws
-mutating func encode(_ value: Int64) throws
-mutating func encode(_ value: UInt) throws
-mutating func encode(_ value: UInt8) throws
-mutating func encode(_ value: UInt16) throws
-mutating func encode(_ value: UInt32) throws
-mutating func encode(_ value: UInt64) throws
-```
-
-This pattern is used throughout the file to generate similarly formulaic declarations for methods like `encode(_:forKey:)`, `decode(_:forKey:)`, and `decodeIfPresent(_:forKey:)`. In total, GYB reduces the amount of boilerplate code by a few thousand LOC:
-
-```bash
-$ wc -l Codable.swift.gyb
-2183 Codable.swift.gyb
-$ wc -l Codable.swift
-5790 Codable.swift
-```
-
-> Ref: [Swift GYB - NSHipster](https://nshipster.com/swift-gyb/)
-
-## Adding `swift-gyb` as a Dependency
-
-To use the `swift-gyb` plugin in a SwiftPM project, 
-add it to the dependencies for your package and your `.swift.gyb` files contained target:
+Add the package to `Package.swift` and apply `GybPlugin` to each target that
+contains templates:
 
 ```swift
+dependencies: [
+  .package(
+    url: "https://github.com/swift-library/swift-gyb.git",
+    .upToNextMinor(from: "0.0.2")
+  ),
+],
+targets: [
+  .target(
+    name: "YourLibrary",
+    plugins: [
+      .plugin(name: "GybPlugin", package: "swift-gyb"),
+    ]
+  ),
+]
+```
+
+The plugin works with library, executable, and test targets written in Swift.
+It skips targets in other languages.
+
+## Quick start
+
+Create a package with one target that uses the plugin:
+
+```swift
+// swift-tools-version: 5.8
+
+import PackageDescription
+
 let package = Package(
-  // name, platforms, products, etc.
+  name: "Settings",
   dependencies: [
-    // other dependencies
-    .package(url: "https://github.com/swift-library/swift-gyb", from: "0.0.2"),
+    .package(
+      url: "https://github.com/swift-library/swift-gyb.git",
+      .upToNextMinor(from: "0.0.2")
+    ),
   ],
   targets: [
-    .executableTarget(
-      name: "<command-line-tool>",
-      dependencies: [
-        // other dependencies
-      ],
+    .target(
+      name: "Settings",
       plugins: [
         .plugin(name: "GybPlugin", package: "swift-gyb"),
       ]
     ),
-    // other targets
   ]
 )
 ```
 
-### Supported Versions
+Add a template at `Sources/Settings/Setting.swift.gyb`. It loops over one list
+of types twice, once for the enum cases and once for the matching
+initializers:
 
-The most recent versions of swift-gyb support Swift 5.8 and newer. The minimum Swift version supported by swift-gyb releases are detailed below:
+```swift
+%{
+  types = ['Bool', 'Int', 'Double', 'String']
+}%
+public enum Setting: Equatable {
+% for type in types:
+  case ${type.lower()}(${type})
+% end
+}
 
-swift-gyb | Minimum Swift Version
-----------|----------------------
-`0.0.2`   | 5.8
-`0.0.1`   | 5.8
+% for type in types:
+extension Setting {
+  public init(_ value: ${type}) {
+    self = .${type.lower()}(value)
+  }
+}
 
-<!-- Link references for readme -->
+% end
+```
 
-[GYB]: https://github.com/apple/swift/blob/main/utils/gyb.py
-[Codable.swift.gyb]: https://github.com/apple/swift/blob/main/stdlib/public/core/Codable.swift.gyb
-[`SingleValueEncodingContainer`]: https://github.com/apple/swift/blob/db81593be463c73f2a3f72b45c1b7ee38e115692/stdlib/public/core/Codable.swift#L2822
+Ordinary Swift files in the same target can use the generated code. Add
+`Sources/Settings/Setting+Description.swift`:
+
+```swift
+extension Setting: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    case .bool(let value): return String(value)
+    case .int(let value): return String(value)
+    case .double(let value): return String(value)
+    case .string(let value): return value
+    }
+  }
+}
+```
+
+Then build:
+
+```bash
+swift build
+```
+
+The plugin writes `Setting.swift` to its work directory under
+`.build/plugins/outputs` and compiles it with the rest of the target.
+
+A target needs at least one ordinary `.swift` file. If a target contains only
+`.gyb` templates, SwiftPM does not recognize it as a Swift target and the
+plugin never runs.
+
+## Usage
+
+### Template syntax
+
+A gyb template is literal text with embedded Python:
+
+- `%{ ... }%` runs a block of Python code, typically to define values for the
+  rest of the template.
+- Lines whose first non-blank character is `%`, such as
+  `% for type in types:` and `% if condition:`, control which lines are
+  emitted. Close each block with `% end`.
+- `${expression}` inserts the result of a Python expression.
+- `%%` and `$$` insert a literal `%` and `$`.
+- Everything else is copied to the output unchanged.
+
+`python3 gyb.artifactbundle/gyb.py --help` in this repository prints the full
+syntax reference.
+
+### Output files
+
+Each template produces one file named after it without the `.gyb` suffix, so
+`Setting.swift.gyb` becomes `Setting.swift` and `Guide.txt.gyb` becomes
+`Guide.txt`. SwiftPM reruns a template when it changes, and generated files
+stay in `.build`.
+
+Templates in subdirectories have their relative path flattened with `__`:
+`Models/User.swift.gyb` becomes `Models__User.swift`. Templates with the same
+file name in different directories therefore produce separate outputs.
+
+Outputs that end in `.swift` are compiled into the target. They include
+`#sourceLocation` directives, so a compiler error points at the template line,
+reported under the flattened template name, such as `Models__User.swift.gyb`.
+
+Other outputs are written without line directives, and SwiftPM bundles them as
+resources of the target. Read them through `Bundle.module` by their flattened
+name. For `Docs/Notes.txt.gyb`:
+
+```swift
+let notes = Bundle.module.url(forResource: "Docs__Notes", withExtension: "txt")
+```
+
+### Compilation conditions
+
+Conditions declared with `.define` in the target's `swiftSettings` reach every
+template as a Python variable with the value `"1"`:
+
+```swift
+.target(
+  name: "YourLibrary",
+  swiftSettings: [
+    .define("FEATURE_FLAGS"),
+  ],
+  plugins: [
+    .plugin(name: "GybPlugin", package: "swift-gyb"),
+  ]
+)
+```
+
+```swift
+% if FEATURE_FLAGS == "1":
+public struct FeatureFlags {}
+% end
+```
+
+Built-in conditions such as `DEBUG` are not passed. A template that refers to a
+name the target does not define fails the build with a Python `NameError`, so
+test an optional condition with `globals().get("NAME") == "1"`.
+
+## Requirements
+
+- Swift 5.8 or later. Both releases, 0.0.1 and 0.0.2, require Swift 5.8.
+- Python 3, available as `python3` on the build machine's `PATH`.
+- The manifest declares macOS 10.13, iOS 11, tvOS 11, and watchOS 4 as minimum
+  platforms.
+
+CI builds and tests the plugin on macOS and on Linux with Swift 6.2.
+
+## Documentation
+
+- [gyb.py](https://github.com/swiftlang/swift/blob/main/utils/gyb.py): the
+  template engine in the Swift repository.
+- [Swift GYB](https://nshipster.com/swift-gyb/) on NSHipster: a walkthrough of
+  gyb templates in the Swift standard library.
+- [Changelog](CHANGELOG.md)
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) and the
+[code of conduct](CODE_OF_CONDUCT.md) before opening a pull request. Before
+submitting changes, run the same checks as CI:
+
+```bash
+python3 gyb.artifactbundle/gyb.py --test
+swift test
+```
+
+The tests use Swift Testing, so `swift test` needs a Swift 6 toolchain.
+
+## License
+
+swift-gyb is available under the Apache License 2.0 with the Swift Runtime
+Library Exception. See [LICENSE.txt](LICENSE.txt). The bundled
+`gyb.artifactbundle/gyb.py` is
+[`utils/gyb.py`](https://github.com/swiftlang/swift/blob/2f9445d55e84eec95d3e066299d8f4636a3e5af9/utils/gyb.py)
+from the Swift project, which is distributed under the same license.
