@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/swift-library/swift-gyb/actions/workflows/ci.yml"><img src="https://github.com/swift-library/swift-gyb/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI"></a>
   <img src="https://img.shields.io/badge/Swift-5.8%2B-F05138" alt="Swift 5.8+">
-  <img src="https://img.shields.io/badge/platforms-macOS%2010.13%2B%20%7C%20iOS%2011%2B%20%7C%20tvOS%2011%2B%20%7C%20watchOS%204%2B-lightgrey" alt="Platforms: macOS 10.13+ | iOS 11+ | tvOS 11+ | watchOS 4+">
+  <img src="https://img.shields.io/badge/platforms-macOS%2010.13%2B%20%7C%20iOS%2011%2B%20%7C%20tvOS%2011%2B%20%7C%20watchOS%204%2B%20%7C%20Linux-lightgrey" alt="Platforms: macOS 10.13+ | iOS 11+ | tvOS 11+ | watchOS 4+ | Linux">
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="License: Apache-2.0 WITH Swift-exception"></a>
 </p>
 
