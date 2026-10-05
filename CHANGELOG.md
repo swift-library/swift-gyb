@@ -2,11 +2,13 @@
 
 ## Unreleased
 
+## 0.1.0
+
 - Raise the minimum platforms to macOS 12, iOS 15, tvOS 15 and watchOS 9, the
   oldest targets Xcode 27 builds for. Packages with lower deployment targets
   stay on 0.0.2.
 - Releases are validated and published through the shared swift-library
-  release workflow. Tags use the `vX.Y.Z` form from the next release on.
+  release workflow. Tags use the `vX.Y.Z` form from this release on.
 - Add a NOTICE for the bundled `gyb.py`.
 
 ## 0.0.2
