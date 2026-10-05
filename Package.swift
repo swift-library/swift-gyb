@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
   name: "swift-gyb",
-  platforms: [.macOS(.v10_13), .iOS(.v11), .tvOS(.v11), .watchOS(.v4)],
+  platforms: [.macOS(.v12), .iOS(.v15), .tvOS(.v15), .watchOS(.v9)],
   products: [
     // This package only exposes the build tool plugin publicly.
     .plugin(name: "GybPlugin", targets: ["GybPlugin"]),
