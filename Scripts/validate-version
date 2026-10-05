@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0 WITH Swift-exception
+# Copyright (c) 2026 Xudong Xu
+
+"""Check package-owned version inputs without changing them."""
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import subprocess
+import sys
+
+
+VERSION = re.compile(
+    r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)"
+    r"(?:-(?:alpha|beta|rc)\.[1-9][0-9]*)?"
+)
+
+
+def git(root, *arguments):
+    return subprocess.check_output(["git", "-C", str(root), *arguments], text=True).strip()
+
+
+def validate(root, tag=None, require_clean=False):
+    root = Path(root).resolve()
+    config = json.loads((root / ".github/release.json").read_text())
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", config["repository"]):
+        raise ValueError("Expected a canonical owner/repository identity")
+    source = (root / config["version_file"]).read_text()
+    matches = re.findall(config["version_pattern"], source)
+    if len(matches) != 1 or not isinstance(matches[0], str) or not VERSION.fullmatch(matches[0]):
+        raise ValueError("Expected one canonical SemVer declaration")
+    version = matches[0]
+    changelog = (root / config["changelog"]).read_text()
+    entries = list(re.finditer(r"^## (\S+)\s*$", changelog, re.MULTILINE))
+    selected = [i for i, entry in enumerate(entries) if entry[1] == version]
+    if len(selected) != 1:
+        raise ValueError("Expected exactly one Changelog entry for " + version)
+    index = selected[0]
+    start = entries[index].end()
+    end = entries[index + 1].start() if index + 1 < len(entries) else len(changelog)
+    notes = changelog[start:end].strip()
+    if not notes:
+        raise ValueError("Release notes must describe the shipped behavior")
+    dirty = bool(git(root, "status", "--porcelain", "--untracked-files=normal"))
+    if require_clean and dirty:
+        raise ValueError("Release acceptance requires a clean committed source tree")
+    commit = git(root, "rev-parse", "HEAD")
+    if tag is not None:
+        if tag != "v" + version:
+            raise ValueError("Tag must match v" + version)
+        if git(root, "rev-parse", "refs/tags/" + tag + "^{commit}") != commit:
+            raise ValueError("Release tag must resolve to the candidate commit")
+    lock = root / "Package.resolved"
+    result = {
+        "repository": config["repository"],
+        "version": version,
+        "tag": "v" + version,
+        "commit": commit,
+        "tree": git(root, "rev-parse", "HEAD^{tree}"),
+        "dirty": dirty,
+        "dependency_lock_sha256": hashlib.sha256(lock.read_bytes()).hexdigest() if lock.exists() else None,
+        "checker_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    }
+    return result, notes
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
+    parser.add_argument("--tag")
+    parser.add_argument("--require-clean", action="store_true")
+    parser.add_argument("--notes", type=Path)
+    parser.add_argument("--json", action="store_true")
+    args = parser.parse_args()
+    try:
+        result, notes = validate(args.root, args.tag, args.require_clean)
+        if args.notes:
+            args.notes.parent.mkdir(parents=True, exist_ok=True)
+            args.notes.write_text(notes + "\n")
+        print(json.dumps(result, indent=2) if args.json else result["version"])
+    except (OSError, ValueError, subprocess.CalledProcessError) as error:
+        print("validate-version: " + str(error), file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

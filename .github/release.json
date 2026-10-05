@@ -1,0 +1,21 @@
+{
+  "repository": "swift-library/swift-gyb",
+  "version_file": "VERSION",
+  "version_pattern": "^([^\\n]+)\\n?$",
+  "changelog": "CHANGELOG.md",
+  "check_command": "Scripts/check",
+  "ci": {
+    "include": [
+      {
+        "name": "macos-26-swift-6.3",
+        "runner": "macos-26",
+        "xcode": "26.6"
+      },
+      {
+        "name": "linux-swift-6.2",
+        "runner": "ubuntu-24.04",
+        "command": "docker run --rm --user \"$(id -u):$(id -g)\" --env HOME=/tmp --volume \"$PWD:/package\" --workdir /package swift:6.2.4-jammy@sha256:af5d222ef7e25779bfc52b078c1e92b2e0c4e1ab29d24ace4533e25f8c3ec8c8 Scripts/check"
+      }
+    ]
+  }
+}
