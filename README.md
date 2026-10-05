@@ -239,16 +239,18 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) and the
 submitting changes, run the same checks as CI:
 
 ```bash
-python3 gyb.artifactbundle/gyb.py --test
-swift test
+Scripts/check
 ```
 
-The tests use Swift Testing, so `swift test` needs a Swift 6 toolchain.
+It runs the `gyb.py` self-test, the release-tool tests and `swift test`. The
+tests use Swift Testing, so `swift test` needs a Swift 6 toolchain. Releases
+follow the swift-library
+[versioning standard](https://github.com/swift-library/.github/blob/master/VERSIONING.md).
 
 ## License
 
 swift-gyb is available under the Apache License 2.0 with the Swift Runtime
-Library Exception. See [LICENSE.txt](LICENSE.txt). The bundled
+Library Exception. See [LICENSE.txt](LICENSE.txt) and [NOTICE](NOTICE). The bundled
 `gyb.artifactbundle/gyb.py` is
 [`utils/gyb.py`](https://github.com/swiftlang/swift/blob/2f9445d55e84eec95d3e066299d8f4636a3e5af9/utils/gyb.py)
 from the Swift project, which is distributed under the same license.

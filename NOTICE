@@ -1,0 +1,12 @@
+swift-gyb
+Copyright (c) 2023 Xudong Xu and the swift-library project authors
+
+Licensed under Apache License 2.0 with the Swift Runtime Library Exception.
+See LICENSE.txt for the complete terms.
+
+Incorporated source: gyb.py from the Swift project
+Copyright (c) Apple Inc. and the Swift project authors
+Repository: https://github.com/swiftlang/swift
+Revision: 2f9445d55e84eec95d3e066299d8f4636a3e5af9
+File: utils/gyb.py, bundled unmodified as gyb.artifactbundle/gyb.py
+Licensed under Apache License 2.0 with the Swift Runtime Library Exception.

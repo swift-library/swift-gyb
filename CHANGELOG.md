@@ -1,23 +1,23 @@
-# CHANGELOG
+# Changelog
 
-> **Note**\
-> This is in reverse chronological order, so newer entries are added to the top.
+## Unreleased
 
-<!-- 
-Add new items at the end of the relevant section under **Unreleased**.
--->
+- Releases are validated and published through the shared swift-library
+  release workflow. Tags use the `vX.Y.Z` form from the next release on.
+- Add a NOTICE for the bundled `gyb.py`.
 
-## [Unreleased]
+## 0.0.2
 
-*No changes yet.*
+- Rename the plugin product from `Gyb` to `GybPlugin`, and remove the
+  `GybExample` library product.
+- Keep non-Swift outputs, such as `.txt.gyb` and `.html.gyb`, under their own
+  extension and bundle them as target resources.
+- Expand templates in nested directories, flattening their relative path with
+  `__` so templates with the same file name produce separate outputs.
+- Pass the target's `.define` compilation conditions to templates.
+- Update the bundled `gyb.py` to Swift revision `2f9445d5`.
+- Build and test on macOS and Linux in CI.
 
----
+## 0.0.1
 
-## [0.0.1] - 2023-05-02
-
-- `swift-gyb` initial release.
-
-<!-- Link references for releases -->
-
-[Unreleased]: https://github.com/swift-library/swift-gyb/compare/0.0.1...HEAD
-[0.0.1]: https://github.com/swift-library/swift-gyb/releases/tag/0.0.1
+- Initial release of the `Gyb` build tool plugin.
