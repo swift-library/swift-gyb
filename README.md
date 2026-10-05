@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/swift-library/swift-gyb/actions/workflows/ci.yml"><img src="https://github.com/swift-library/swift-gyb/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI"></a>
   <img src="https://img.shields.io/badge/Swift-5.8%2B-F05138" alt="Swift 5.8+">
-  <img src="https://img.shields.io/badge/platforms-macOS%2010.13%2B%20%7C%20iOS%2011%2B%20%7C%20tvOS%2011%2B%20%7C%20watchOS%204%2B%20%7C%20Linux-lightgrey" alt="Platforms: macOS 10.13+ | iOS 11+ | tvOS 11+ | watchOS 4+ | Linux">
+  <img src="https://img.shields.io/badge/platforms-macOS%2012%2B%20%7C%20iOS%2015%2B%20%7C%20tvOS%2015%2B%20%7C%20watchOS%209%2B%20%7C%20Linux-lightgrey" alt="Platforms: macOS 12+ | iOS 15+ | tvOS 15+ | watchOS 9+ | Linux">
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="License: Apache-2.0 WITH Swift-exception"></a>
 </p>
 
@@ -217,12 +217,13 @@ test an optional condition with `globals().get("NAME") == "1"`.
 
 ## Requirements
 
-- Swift 5.8 or later. Both releases, 0.0.1 and 0.0.2, require Swift 5.8.
+- Swift 5.8 or later.
 - Python 3, available as `python3` on the build machine's `PATH`.
-- The manifest declares macOS 10.13, iOS 11, tvOS 11, and watchOS 4 as minimum
-  platforms.
+- macOS 12, iOS 15, tvOS 15, or watchOS 9 or later, or Linux. Packages with
+  lower deployment targets can use 0.0.2.
 
-CI builds and tests the plugin on macOS and on Linux with Swift 6.2.
+CI builds and tests the plugin on macOS with Xcode 26 and on Linux with
+Swift 6.2.
 
 ## Documentation
 
@@ -250,7 +251,7 @@ follow the swift-library
 ## License
 
 swift-gyb is available under the Apache License 2.0 with the Swift Runtime
-Library Exception. See [LICENSE.txt](LICENSE.txt) and [NOTICE](NOTICE). The bundled
-`gyb.artifactbundle/gyb.py` is
+Library Exception. See [LICENSE.txt](LICENSE.txt) and [NOTICE](NOTICE). The
+bundled `gyb.artifactbundle/gyb.py` is
 [`utils/gyb.py`](https://github.com/swiftlang/swift/blob/2f9445d55e84eec95d3e066299d8f4636a3e5af9/utils/gyb.py)
 from the Swift project, which is distributed under the same license.
