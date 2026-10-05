@@ -50,7 +50,7 @@ contains templates:
 dependencies: [
   .package(
     url: "https://github.com/swift-library/swift-gyb.git",
-    .upToNextMinor(from: "0.0.2")
+    .upToNextMinor(from: "0.1.0")
   ),
 ],
 targets: [
@@ -80,7 +80,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/swift-library/swift-gyb.git",
-      .upToNextMinor(from: "0.0.2")
+      .upToNextMinor(from: "0.1.0")
     ),
   ],
   targets: [
