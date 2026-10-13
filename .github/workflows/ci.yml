@@ -3,12 +3,13 @@ on:
   push:
     branches: [master]
   pull_request:
+    types: [opened, synchronize, reopened, edited]
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   policy:
     if: github.event_name == 'pull_request' || github.event_name == 'push'
-    uses: swift-library/.github/.github/workflows/policy.yml@b1ea823a9792496113f625c6f9f8649a3b28268a
+    uses: swift-library/.github/.github/workflows/policy.yml@c4fac2499d45d7ff3fb543e803e89dae2be5a6c6
   validate:
-    uses: swift-library/.github/.github/workflows/swift-package-ci.yml@b1ea823a9792496113f625c6f9f8649a3b28268a
+    uses: swift-library/.github/.github/workflows/swift-package-ci.yml@c4fac2499d45d7ff3fb543e803e89dae2be5a6c6

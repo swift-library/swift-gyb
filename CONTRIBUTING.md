@@ -1,10 +1,11 @@
-By submitting a pull request, you represent that you have the right to license
-your contribution to swift-library project, and agree by submitting the patch
-that your contributions are licensed under the [swift-library
-license](https://swift-library.github.io/LICENSE.txt).
+# Contributing
 
----
+External contributions are welcome. Use a Conventional Commit PR title and run
+`Scripts/check` before submitting changes. Describe the behavior being changed
+and include a regression test for a bug fix. Follow the
+[shared contribution guide](https://github.com/swift-library/.github/blob/master/CONTRIBUTING.md)
+and [release standard](https://github.com/swift-library/.github/blob/master/VERSIONING.md).
+Maintainers follow the shared [signing instructions](https://github.com/swift-library/.github/blob/master/MAINTENANCE.md#signing).
 
-Before submitting the pull request, please make sure you have tested your
-changes and that they follow the Swift project [guidelines for contributing
-code](https://swift-library.github.io/contributing/#contributing-code).
+By submitting a contribution, you confirm your right to license it under
+[Apache-2.0 WITH Swift-exception](LICENSE.txt). Preserve third-party notices.

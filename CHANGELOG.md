@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Require Swift 6.0 or later. Upgrade the toolchain before adopting this release.
+
 ## 0.1.0
 
 - Raise the minimum platforms to macOS 12, iOS 15, tvOS 15 and watchOS 9, the
