@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.2.0
+
 - Require Swift 6.0 or later. Upgrade the toolchain before adopting this release.
 
 ## 0.1.0
