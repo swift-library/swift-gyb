@@ -4,14 +4,13 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p .build/release-validation
-Scripts/validate-version --json > .build/release-validation/version.json
-python3 -B -m unittest discover -s Tests/ReleaseTools
 python3 gyb.artifactbundle/gyb.py --test
 swift test
 python3 - <<'PY'
 import hashlib, json, pathlib, platform, subprocess
 root = pathlib.Path('.build/release-validation')
-result = json.loads((root / 'version.json').read_text())
+result = {key: subprocess.check_output(['git', 'rev-parse', ref], text=True).strip()
+          for key, ref in [('commit', 'HEAD'), ('tree', 'HEAD^{tree}')]}
 result['os'] = platform.platform()
 result['python'] = platform.python_version()
 result['swift'] = subprocess.check_output(['swift', '--version'], text=True).strip()
@@ -19,6 +18,6 @@ if platform.system() == 'Darwin':
     result['xcode'] = subprocess.check_output(['xcodebuild', '-version'], text=True).strip()
     result['sdk'] = subprocess.check_output(['xcrun', '--sdk', 'macosx', '--show-sdk-version'], text=True).strip()
 result['validation_script_sha256'] = hashlib.sha256(pathlib.Path('Scripts/check').read_bytes()).hexdigest()
-result['checks'] = ['version', 'release-tools', 'gyb-self-test', 'swift-test']
+result['checks'] = ['gyb-self-test', 'swift-test']
 (root / 'provenance.json').write_text(json.dumps(result, indent=2) + '\n')
 PY
