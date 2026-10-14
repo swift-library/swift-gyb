@@ -1,0 +1,15 @@
+name: Source policy
+on:
+  push:
+    branches: [master]
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+jobs:
+  policy:
+    uses: swift-library/.github/.github/workflows/policy.yml@1cb9f92f9e8573dc00e52e54d2735ad90acb48b0
