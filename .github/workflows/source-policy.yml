@@ -12,4 +12,4 @@ permissions:
   contents: read
 jobs:
   policy:
-    uses: swift-library/.github/.github/workflows/policy.yml@1cb9f92f9e8573dc00e52e54d2735ad90acb48b0
+    uses: swift-library/.github/.github/workflows/policy.yml@43cc21f34684e47903762f6eb616c545b003c5ea
