@@ -29,7 +29,8 @@ struct GybBuildPlugin: BuildToolPlugin {
     }
     let toolPath = try context.tool(named: "gyb").path
     let sourceDirectory = target.directory.string
-    let sourceDirectoryPrefix = sourceDirectory.hasSuffix("/") ? sourceDirectory : sourceDirectory + "/"
+    let sourceDirectoryPrefix =
+      sourceDirectory.hasSuffix("/") ? sourceDirectory : sourceDirectory + "/"
 
     let gyb: (_ pair: GybSourceOutputPair) -> Command = { pair in
       var arguments = target.compilationConditions.flatMap { ["-D", "\($0)=1"] }
@@ -45,7 +46,8 @@ struct GybBuildPlugin: BuildToolPlugin {
         pair.sourcePath.string,
       ]
       return .buildCommand(
-        displayName: "Using gyb convert \(pair.sourcePath.lastComponent) to \(pair.outputPath.lastComponent)",
+        displayName:
+          "Using gyb convert \(pair.sourcePath.lastComponent) to \(pair.outputPath.lastComponent)",
         executable: toolPath,
         arguments: arguments,
         inputFiles: [pair.sourcePath],
@@ -55,7 +57,8 @@ struct GybBuildPlugin: BuildToolPlugin {
     let gybFiles = target.sourceFiles(withSuffix: ".gyb")
     let sourceAndOutputPaths = gybFiles.compactMap { sourceFile -> GybSourceOutputPair? in
       let sourcePath = sourceFile.path
-      let relativePath = makeRelativePath(sourcePath.string, sourceDirectoryPrefix: sourceDirectoryPrefix)
+      let relativePath = makeRelativePath(
+        sourcePath.string, sourceDirectoryPrefix: sourceDirectoryPrefix)
       guard let outputFileName = outputFileName(forRelativeGYBPath: relativePath) else {
         return nil
       }

@@ -14,6 +14,7 @@
 
 import Foundation
 import Testing
+
 @testable import GybBuildFixtures
 
 struct GybCodable: Codable {}
@@ -76,11 +77,13 @@ struct GybTests {
       .deletingLastPathComponent()
     let buildDirectory = packageRoot.appendingPathComponent(".build", isDirectory: true)
 
-    guard let enumerator = FileManager.default.enumerator(
-      at: buildDirectory,
-      includingPropertiesForKeys: [.isRegularFileKey],
-      options: [.skipsHiddenFiles]
-    ) else {
+    guard
+      let enumerator = FileManager.default.enumerator(
+        at: buildDirectory,
+        includingPropertiesForKeys: [.isRegularFileKey],
+        options: [.skipsHiddenFiles]
+      )
+    else {
       return []
     }
 
