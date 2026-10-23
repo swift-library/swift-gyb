@@ -19,10 +19,12 @@ Read `README.md` and `CONTRIBUTING.md` before editing.
 
 ### Compatibility and versioning
 
-- Flag a change to public API or observable behavior, including a raised
-  minimum platform or Swift version, without the change record and version
-  bump the [organization versioning standard](https://github.com/swift-library/.github/blob/master/VERSIONING.md) requires. Safe
-  path: record the change under the next version with that bump.
+- Flag a change to public API or observable behavior without the change record
+  required by the [organization versioning standard](https://github.com/swift-library/.github/blob/master/VERSIONING.md).
+  Record raised deployment floors or minimum Swift versions under `## Unreleased`
+  with a **Breaking** marker naming the new minimums; assign a version at release.
+- Require Swift tools 6.3 and deployment minimums of macOS 15, iOS 18, tvOS 18
+  and watchOS 11. Keep one shared CI compiler entry: Xcode 26.6 on macOS 26.
 
 ### Claims
 

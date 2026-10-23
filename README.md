@@ -12,8 +12,8 @@
 
 <p align="center">
   <a href="https://github.com/swift-library/swift-gyb/actions/workflows/ci.yml"><img src="https://github.com/swift-library/swift-gyb/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI"></a>
-  <img src="https://img.shields.io/badge/Swift-6.0%2B-F05138?style=flat" alt="Swift 6.0+">
-  <img src="https://img.shields.io/badge/platforms-macOS%2012%2B%20%7C%20iOS%2015%2B%20%7C%20tvOS%2015%2B%20%7C%20watchOS%209%2B%20%7C%20Linux-lightgrey?style=flat" alt="Platforms: macOS 12+ | iOS 15+ | tvOS 15+ | watchOS 9+ | Linux">
+  <img src="https://img.shields.io/badge/Swift-6.3%2B-F05138?style=flat" alt="Swift 6.3+">
+  <img src="https://img.shields.io/badge/platforms-macOS%2015%2B%20%7C%20iOS%2018%2B%20%7C%20tvOS%2018%2B%20%7C%20watchOS%2011%2B%20%7C%20Linux-lightgrey?style=flat" alt="Platforms: macOS 15+ | iOS 18+ | tvOS 18+ | watchOS 11+ | Linux">
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-Apache--2.0-blue?style=flat" alt="License: Apache-2.0 WITH Swift-exception"></a>
 </p>
 
@@ -81,13 +81,15 @@ Apply `GybPlugin` to each target with templates and keep at least one ordinary S
 
 ## Requirements
 
-- Swift 6.0 or later.
+- Swift 6.3 or later.
 - Python 3, available as `python3` on the build machine's `PATH`.
-- macOS 12, iOS 15, tvOS 15, or watchOS 9 or later, or Linux. Packages with
-  lower deployment targets can use 0.0.2.
+- macOS 15, iOS 18, tvOS 18, or watchOS 11 or later, or Linux.
 
-CI builds and tests the plugin on macOS with Swift 6.0 and 6.3 and on Linux
-with Swift 6.2.
+Apple deployment targets cover the three most recent platform generations.
+Availability checking against the latest SDK covers older supported systems.
+
+The shared CI compiler lane builds and tests with the latest stable Xcode,
+currently Xcode 26.6 on macOS 26.
 
 ## Documentation
 
@@ -104,7 +106,7 @@ with Swift 6.2.
 Read [CONTRIBUTING.md](CONTRIBUTING.md) and the
 [code of conduct](https://github.com/swift-library/.github/blob/master/CODE_OF_CONDUCT.md) before opening a pull request. Run the
 [local validation commands](CONTRIBUTING.md#validation) before submitting changes.
-The tests use Swift Testing and require a Swift 6 toolchain. Releases
+The tests use Swift Testing and require Swift 6.3 or later. Releases
 follow the swift-library
 [versioning standard](https://github.com/swift-library/.github/blob/master/VERSIONING.md).
 

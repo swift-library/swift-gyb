@@ -22,12 +22,13 @@ types can produce a family of declarations without checking generated code in.
 Create a package with one target that uses the plugin:
 
 ```swift
-// swift-tools-version: 6.0
+// swift-tools-version: 6.3
 
 import PackageDescription
 
 let package = Package(
   name: "Settings",
+  platforms: [.macOS(.v15), .iOS(.v18), .tvOS(.v18), .watchOS(.v11)],
   dependencies: [
     .package(
       url: "https://github.com/swift-library/swift-gyb.git",
