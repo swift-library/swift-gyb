@@ -12,8 +12,8 @@
   "platforms": {
     "linux": [
       {
-        "name": "linux-swift-6.2",
-        "image": "swift:6.2.4-jammy@sha256:af5d222ef7e25779bfc52b078c1e92b2e0c4e1ab29d24ace4533e25f8c3ec8c8"
+        "name": "linux-swift-6.3",
+        "image": "swift:6.3.3-noble@sha256:c2f3ac2eb806ce43f68859c3d52bd3bb1cfc88672fb3a948b76e136d98e39278"
       }
     ]
   },
