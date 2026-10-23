@@ -10,6 +10,7 @@ concurrency:
 
 permissions:
   contents: read
+  actions: read
 jobs:
   policy:
-    uses: swift-library/.github/.github/workflows/policy.yml@43cc21f34684e47903762f6eb616c545b003c5ea
+    uses: swift-library/github-workflows/.github/workflows/policy.yml@13b7e934da06a98f1b4ee11bd09cba85c84f458c

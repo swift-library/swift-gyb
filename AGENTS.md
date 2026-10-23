@@ -8,7 +8,11 @@ Read `README.md` and `CONTRIBUTING.md` before editing.
 - `Plugins/GybPlugin/` owns SwiftPM integration; `gyb.artifactbundle/` owns the
   bundled template engine and its upstream notices.
 - Templates own generated source. Keep build outputs in ignored `.build/`.
-- `Tests/` owns regression coverage. Run `Scripts/check` before handing off.
+- `Tests/` owns regression coverage. Run the validation commands in
+  `CONTRIBUTING.md` before handing off.
+- `.github/swift-package.json` owns the shared validation configuration;
+  `.github/release.json` owns the release declaration. See
+  `Documentation/Reference/Release.md` for version and tag details.
 - `README.md` owns user guidance; `CHANGELOG.md` owns release history.
 
 ## Code Review Rules

@@ -92,6 +92,7 @@ with Swift 6.2.
 ## Documentation
 
 - [Usage guide](Documentation/Reference/Usage.md): examples, behavior, and limits.
+- [Release reference](Documentation/Reference/Release.md): version declarations and publication.
 - [gyb.py](https://github.com/swiftlang/swift/blob/main/utils/gyb.py): the
   template engine in the Swift repository.
 - [Swift GYB](https://nshipster.com/swift-gyb/) on NSHipster: a walkthrough of
@@ -101,15 +102,9 @@ with Swift 6.2.
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) and the
-[code of conduct](https://github.com/swift-library/.github/blob/master/CODE_OF_CONDUCT.md) before opening a pull request. Before
-submitting changes, run the same checks as CI:
-
-```bash
-Scripts/check
-```
-
-It runs the `gyb.py` self-test, `swift test`. The
-tests use Swift Testing, so `swift test` needs a Swift 6 toolchain. Releases
+[code of conduct](https://github.com/swift-library/.github/blob/master/CODE_OF_CONDUCT.md) before opening a pull request. Run the
+[local validation commands](CONTRIBUTING.md#validation) before submitting changes.
+The tests use Swift Testing and require a Swift 6 toolchain. Releases
 follow the swift-library
 [versioning standard](https://github.com/swift-library/.github/blob/master/VERSIONING.md).
 

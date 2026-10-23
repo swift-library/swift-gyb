@@ -8,7 +8,7 @@ let package = Package(
   platforms: [.macOS(.v12), .iOS(.v15), .tvOS(.v15), .watchOS(.v9)],
   products: [
     // This package only exposes the build tool plugin publicly.
-    .plugin(name: "GybPlugin", targets: ["GybPlugin"]),
+    .plugin(name: "GybPlugin", targets: ["GybPlugin"])
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -16,21 +16,21 @@ let package = Package(
     .target(
       name: "GybBuildFixtures",
       swiftSettings: [
-        .define("GYB_TEST_FLAG"),
+        .define("GYB_TEST_FLAG")
       ],
       plugins: [.plugin(name: "GybPlugin")]),
-    
+
     .plugin(
       name: "GybPlugin",
       capability: .buildTool(),
       dependencies: ["gyb"]),
-    
+
     .binaryTarget(
       name: "gyb",
       path: "gyb.artifactbundle"),
-    
+
     .testTarget(
       name: "GybTests",
-      dependencies: ["GybBuildFixtures"])
+      dependencies: ["GybBuildFixtures"]),
   ]
 )

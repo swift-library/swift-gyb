@@ -1,24 +1,19 @@
 name: Release
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: Existing accepted version tag
-        required: true
-        type: string
+  push:
+    tags: ['v*']
 permissions:
   contents: read
+  actions: read
 jobs:
   validate:
-    uses: swift-library/.github/.github/workflows/swift-package-ci.yml@43cc21f34684e47903762f6eb616c545b003c5ea
-    with:
-      ref: ${{ inputs.tag }}
-  publish:
+    uses: swift-library/github-workflows/.github/workflows/swift-package.yml@13b7e934da06a98f1b4ee11bd09cba85c84f458c
+  release:
     needs: validate
     permissions:
       contents: write
       actions: read
-    uses: swift-library/.github/.github/workflows/swift-package-release.yml@43cc21f34684e47903762f6eb616c545b003c5ea
+    uses: swift-library/github-workflows/.github/workflows/swift-package-release.yml@13b7e934da06a98f1b4ee11bd09cba85c84f458c
     with:
-      tag: ${{ inputs.tag }}
-      accepted_commit: ${{ needs.validate.outputs.commit }}
+      tag: ${{ github.ref_name }}
+      accepted_commit: ${{ github.sha }}
