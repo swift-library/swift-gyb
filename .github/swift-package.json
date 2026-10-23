@@ -13,7 +13,7 @@
     "linux": [
       {
         "name": "linux-swift-6.3",
-        "image": "swift:6.3.3-noble@sha256:c2f3ac2eb806ce43f68859c3d52bd3bb1cfc88672fb3a948b76e136d98e39278"
+        "image": "swift:6.3.3-jammy@sha256:0143efd456c570fb5ec727b4a5a2f88ce2a656600377e3df61894813103d661b"
       }
     ]
   },
