@@ -1,11 +1,11 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
   name: "swift-gyb",
-  platforms: [.macOS(.v12), .iOS(.v15), .tvOS(.v15), .watchOS(.v9)],
+  platforms: [.macOS(.v15), .iOS(.v18), .tvOS(.v18), .watchOS(.v11)],
   products: [
     // This package only exposes the build tool plugin publicly.
     .plugin(name: "GybPlugin", targets: ["GybPlugin"])

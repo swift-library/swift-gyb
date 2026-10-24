@@ -14,4 +14,4 @@ permissions:
   actions: read
 jobs:
   validate:
-    uses: swift-library/github-workflows/.github/workflows/swift-package.yml@c73e5121f19dd64e85d3b506dfae95685647d065
+    uses: swift-library/github-workflows/.github/workflows/swift-package.yml@17e33c3a130ed207bcf80ccfbbe54fcd481d953b

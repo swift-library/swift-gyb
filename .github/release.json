@@ -3,7 +3,7 @@
   "version_file": "VERSION",
   "version_pattern": "^([^\\n]+)\\n?$",
   "changelog": "CHANGELOG.md",
-  "minimum_swift": "6.0",
+  "minimum_swift": "6.3",
   "platforms": {
     "iOS": [
       18,
