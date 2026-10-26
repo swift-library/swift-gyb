@@ -13,13 +13,14 @@
 - Before changing versions, dependencies, packaging or release workflows, read
   the [organization VERSIONING](https://github.com/swift-library/.github/blob/master/VERSIONING.md),
   `.github/release.json` and, when present, `Documentation/Reference/Release.md`.
-- `.github/swift-package.json` declares CI validation; the required checks are
-  `policy / policy` and `validate / result`. Run the local checks in
-  `CONTRIBUTING.md` before handing off.
+- `.github/swift-package.json` declares CI validation, and `CONTRIBUTING.md`
+  names the required checks. Run the local checks in `CONTRIBUTING.md` before
+  handing off.
 - Read toolchain, platform and deployment minimums from `Package.swift` and
   `.github/swift-package.json` instead of restating them.
 - When `Documentation/README.md` exists, read it before changing documentation,
-  and read `Documentation/Architecture/` before changing package structure.
+  and read the architecture documents it lists before changing package
+  structure.
 
 ## Code Review Rules
 

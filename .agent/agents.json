@@ -3,7 +3,7 @@
     "swift-library": {
       "git": "github.com/swift-library/.github",
       "path": ".agent",
-      "revision": "e50b5aa15b444d5281f8fc2ff0f1217d6e680509"
+      "revision": "717797cc0e7e96f399e889249a0863c051c0897d"
     }
   },
   "instructions": {
