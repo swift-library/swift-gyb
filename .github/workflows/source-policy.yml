@@ -13,4 +13,4 @@ permissions:
   actions: read
 jobs:
   policy:
-    uses: swift-library/github-workflows/.github/workflows/policy.yml@17e33c3a130ed207bcf80ccfbbe54fcd481d953b
+    uses: swift-library/github-workflows/.github/workflows/policy.yml@0d016c87e9631d5c6ecdc781226d843aaec22e71
