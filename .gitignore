@@ -6,3 +6,7 @@ xcuserdata/
 DerivedData/
 .swiftpm/
 .netrc
+/.agent/*
+!/.agent/instructions/
+!/.agent/agents.json
+!/.agent/agents.resolved
