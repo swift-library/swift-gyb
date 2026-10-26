@@ -37,6 +37,9 @@
     "github.com/swift-library/.github": {
       "kind": "git",
       "path": ".agent",
+      "requirement": {
+        "branch": "master"
+      },
       "url": "https://github.com/swift-library/.github"
     }
   },

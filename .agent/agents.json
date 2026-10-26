@@ -9,6 +9,7 @@
   },
   "sources": {
     "swift-library": {
+      "branch": "master",
       "git": "github.com/swift-library/.github",
       "path": ".agent"
     }
