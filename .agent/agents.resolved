@@ -1,54 +1,44 @@
 {
-  "instructions" : {
-    "chatgpt" : {
-
-    },
-    "sections" : [
+  "instructions": {
+    "chatgpt": {},
+    "sections": [
       {
-        "hash" : "sha256:c7326cfba07f7bff7ee85bada51dfd425bf76195a5e63cea9f6825edec17ff72",
-        "name" : "guide",
-        "path" : ".agent/instructions/guide.md",
-        "source" : "."
+        "hash": "sha256:c7326cfba07f7bff7ee85bada51dfd425bf76195a5e63cea9f6825edec17ff72",
+        "name": "guide",
+        "path": ".agent/instructions/guide.md",
+        "source": "."
       },
       {
-        "hash" : "sha256:dc4797e1b91682166d42990cd831c2a9b42d51057713289fd1f5da4dfcfd1964",
-        "name" : "shared/swift-package-route",
-        "path" : ".agent/instructions/shared/swift-package-route.md",
-        "revision" : "717797cc0e7e96f399e889249a0863c051c0897d",
-        "source" : "github.com/swift-library/.github"
+        "hash": "sha256:dc4797e1b91682166d42990cd831c2a9b42d51057713289fd1f5da4dfcfd1964",
+        "name": "shared/swift-package-route",
+        "path": ".agent/instructions/shared/swift-package-route.md",
+        "revision": "609b4d97b47e0b70f70f028306f1d25ae077ed11",
+        "source": "github.com/swift-library/.github"
       },
       {
-        "hash" : "sha256:06ab95f59b0d66b15a7d7bd34888321cb7056a05a63698f56a429a92e0520f3f",
-        "name" : "shared/code-review-rules",
-        "path" : ".agent/instructions/shared/code-review-rules.md",
-        "revision" : "717797cc0e7e96f399e889249a0863c051c0897d",
-        "source" : "github.com/swift-library/.github"
+        "hash": "sha256:06ab95f59b0d66b15a7d7bd34888321cb7056a05a63698f56a429a92e0520f3f",
+        "name": "shared/code-review-rules",
+        "path": ".agent/instructions/shared/code-review-rules.md",
+        "revision": "609b4d97b47e0b70f70f028306f1d25ae077ed11",
+        "source": "github.com/swift-library/.github"
       }
     ],
-    "targets" : {
-      "AGENTS.md" : {
-        "agents" : [
-          "claude-code",
-          "codex"
-        ],
-        "blockHash" : "sha256:378e187407b13805ce98b5a2f2ec42904056af49b827c95d81faa3eede548e3f",
-        "created" : false,
-        "headingOffset" : 0
+    "targets": {
+      "AGENTS.md": {
+        "agents": ["claude-code", "codex"],
+        "blockHash": "sha256:378e187407b13805ce98b5a2f2ec42904056af49b827c95d81faa3eede548e3f",
+        "created": false,
+        "headingOffset": 0
       }
     }
   },
-  "skills" : {
-
-  },
-  "sources" : {
-    "github.com/swift-library/.github" : {
-      "kind" : "git",
-      "path" : ".agent",
-      "requirement" : {
-        "revision" : "717797cc0e7e96f399e889249a0863c051c0897d"
-      },
-      "url" : "https://github.com/swift-library/.github"
+  "skills": {},
+  "sources": {
+    "github.com/swift-library/.github": {
+      "kind": "git",
+      "path": ".agent",
+      "url": "https://github.com/swift-library/.github"
     }
   },
-  "version" : 1
+  "version": 1
 }

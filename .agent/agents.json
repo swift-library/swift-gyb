@@ -1,20 +1,16 @@
 {
-  "sources": {
-    "swift-library": {
-      "git": "github.com/swift-library/.github",
-      "path": ".agent",
-      "revision": "717797cc0e7e96f399e889249a0863c051c0897d"
-    }
-  },
   "instructions": {
-    "agents": [
-      "claude-code",
-      "codex"
-    ],
+    "agents": ["claude-code", "codex"],
     "sections": [
       "guide",
       "swift-library:shared/swift-package-route",
       "swift-library:shared/code-review-rules"
     ]
+  },
+  "sources": {
+    "swift-library": {
+      "git": "github.com/swift-library/.github",
+      "path": ".agent"
+    }
   }
 }
